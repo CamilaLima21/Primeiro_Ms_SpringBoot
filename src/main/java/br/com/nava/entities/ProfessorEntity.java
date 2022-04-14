@@ -30,6 +30,7 @@ public class ProfessorEntity {
 	private int numero;
 	private String cep;
 	
+	
 	public ProfessorDTO toDTO() {
 		ModelMapper mapper = new ModelMapper();
 		

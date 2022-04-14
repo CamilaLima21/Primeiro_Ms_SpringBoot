@@ -109,7 +109,7 @@ public class ProfessorController {
 	}
 	
 	@DeleteMapping("{id}")
-	public void delete(@PathVariable Integer id) {
+	public ResponseEntity <Void> delete(@PathVariable Integer id) {
 //		for (int i = 0; i < listaProfessor.size(); i++) {
 //			if (listaProfessor.get(i).getId() == id) {
 //				listaProfessor.remove(i);
@@ -119,7 +119,7 @@ public class ProfessorController {
 		//int indice = findIndex(id);
 		//if(indice >= 0 ) listaProfessor.remove(indice);
 //		professorService.delete(id, listaProfessor);
-		professorService.delete(id);
+		return  ResponseEntity.ok().build();
 	}
 	
 	

@@ -18,9 +18,9 @@ public class ProfessorService {
 	@Autowired
 	private ProfessorRepository professorRepository;
 
-	public void mostrar() {
-		System.out.println("mostrar");
-	}
+//	public void mostrar() {
+//		System.out.println("mostrar");
+//	}
 	
 	public List<ProfessorDTO> getAll(){
 		List<ProfessorEntity> lista = professorRepository.findAll();

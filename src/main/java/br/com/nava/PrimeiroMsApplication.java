@@ -16,14 +16,14 @@ import br.com.nava.services.BDService;
 @SpringBootApplication
 public class PrimeiroMsApplication implements CommandLineRunner{
 	
-	@Autowired
-	private ProfessorRepository professorRepository;
-	
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
-	@Autowired
-	private BDService bdService;
+//	@Autowired
+//	private ProfessorRepository professorRepository;
+//	
+//	@Autowired
+//	private UsuarioRepository usuarioRepository;
+//	
+//	@Autowired
+//	private BDService bdService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrimeiroMsApplication.class, args);
@@ -32,7 +32,7 @@ public class PrimeiroMsApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		bdService.inserirVendas();
+		//bdService.inserirVendas();
 //		// TODO Auto-generated method stub
 //		
 //		// SELECT * FROM PROFESSOR;
