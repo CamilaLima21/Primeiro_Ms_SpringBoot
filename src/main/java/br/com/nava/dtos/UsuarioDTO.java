@@ -26,7 +26,7 @@ public class UsuarioDTO {
 	@NotEmpty(message = "Preenchimento Obrigatório")
 	@NotNull(message = "Preenchimento Obrigatório")
 	@Length(min = 3, max= 80, message= "O número de caracteres deve ser entre 3 e 80")
-	@Pattern( regexp = "^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/", message = "É válido apenas caracteres")
+	@Pattern( regexp = "^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]*$", message = "É válido apenas caracteres")
 	private String nome;
 	private String email;
 	//private EnderecoEntity endereco;

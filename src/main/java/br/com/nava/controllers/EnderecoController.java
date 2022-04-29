@@ -31,31 +31,27 @@ public class EnderecoController {
 	
 	@GetMapping("")
 	public ResponseEntity<List<EnderecoDTO>> getAll() {
-		//return enderecoService.getAll();		
 		return ResponseEntity.status(HttpStatus.OK).body(enderecoService.getAll());
 	}
 	
 	@GetMapping(value = "{id}")
 	public ResponseEntity<EnderecoDTO> getOne(@PathVariable Integer id) {
-		//return enderecoService.getOne(id);	
 		return ResponseEntity.status(HttpStatus.OK).body(enderecoService.getOne(id));
 	}
 	
 	@PostMapping("")
 	public ResponseEntity<EnderecoDTO> save(@Valid @RequestBody EnderecoDTO endereco) {
-		//return enderecoService.save(endereco);
 		return ResponseEntity.status(HttpStatus.OK).body(enderecoService.save(endereco.toEntity()));
 	}
 	
 	@PatchMapping(value = "{id}")
 	public ResponseEntity<EnderecoDTO> update(@PathVariable Integer id, @RequestBody EnderecoDTO endereco) {
-		//return enderecoService.update(id, endereco);
 		return ResponseEntity.status(HttpStatus.OK).body(enderecoService.update(id, endereco.toEntity()));
 	}
 	
 	@DeleteMapping(value = "{id}")
-	public void delete(@PathVariable Integer id) {
-		enderecoService.delete(id);
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		return ResponseEntity.ok().build();
 	}
 
 }

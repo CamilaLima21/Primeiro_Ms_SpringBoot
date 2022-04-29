@@ -25,31 +25,29 @@ public class BDService {
 	@Autowired
 	private VendaRepository vendaRepository;
 
-	// Exemplo de inserção para relacionamento Many To Many
 	public void inserirVendas() {
 		
-		// buscar uma lista de usuário para pegar um deles		
+
 		List<UsuarioEntity> usuarios = usuarioRepository.findAll();
-		
-		// buscar uma lista de produtos
+
 		List<ProdutoEntity> produtos = produtoRepository.findAll();
 		
 		VendaEntity venda = new VendaEntity();
-		venda.setValorTotal(120);		
-		//peguei o primeiro elemento da lista de usuários
+		venda.setValorTotal(Float.valueOf(120));		
+
 		venda.setUsuario(usuarios.get(0));
-		// alterei a lista de produtos em vendas
+
 		venda.setProdutos(produtos);
 		
 		VendaEntity vendaSalva = vendaRepository.save(venda);
 		
-		List<VendaEntity> listaVendas = new ArrayList<VendaEntity>();
+		List<VendaEntity> listaVendas = new ArrayList<>();
 		listaVendas.add(vendaSalva);
 		
-		// para cada produto, alterar a lista de vendas
+
 		for (int i = 0; i < produtos.size(); i++) {
 			produtos.get(i).setVendas(listaVendas);
-			//atualizar o produto de acordo com a sua venda
+
 			produtoRepository.save(produtos.get(i));
 		}
 	}

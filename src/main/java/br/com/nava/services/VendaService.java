@@ -1,15 +1,14 @@
 package br.com.nava.services;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.nava.entities.ProdutoEntity;
+import br.com.nava.dtos.VendaDTO;
 import br.com.nava.entities.VendaEntity;
-import br.com.nava.repositories.ProdutoRepository;
 import br.com.nava.repositories.VendaRepository;
 
 @Service
@@ -17,55 +16,44 @@ public class VendaService {
 
 	@Autowired
 	private VendaRepository vendaRepository;
+
 	
-	@Autowired
-	private ProdutoRepository produtoRepository;
-	
-	public List<VendaEntity> getAll(){
-		return vendaRepository.findAll();
-	}
-	
-	public VendaEntity getOne(int id) {
-		return vendaRepository.findById(id).orElse(new VendaEntity());
-	}
-	
-	public VendaEntity save(VendaEntity venda) {
-		//primeiro teremos que salvar a venda (para preencher a lista de vendas para cada produto)
+	public List<VendaDTO> getAll(){
+		List<VendaEntity> lista = vendaRepository.findAll();
 		
-		VendaEntity vendaSalva = vendaRepository.save(venda);
+		List<VendaDTO> listaDTO = new ArrayList<>();
 		
-		// depois teremos que alterar a lista de vendas para cada produtos	
-		// para cada produto da venda do body, temos que atualizar a venda salva no banco
-		
-		//todos os produtos da venda
-		List<ProdutoEntity> listaProdutos = venda.getProdutos();
-		
-		// atualizando as vendas para cada produto acima
-		
-		for(int i = 0; i < listaProdutos.size(); i++) {
-			// Arrays.asList(): converte um conjunto de objetos em uma lista
-			listaProdutos.get(i).setVendas( Arrays.asList(vendaSalva)  );
+		for (VendaEntity vendaEntity : lista) {
+			listaDTO.add(vendaEntity.toDTO());
 		}
-		
-		//salvando as atualizações no banco de dados
-		produtoRepository.saveAll(listaProdutos);
-		
-		return vendaSalva;
+		return listaDTO;		
+	}
+	
+	public VendaDTO getOne(int id) {
+		Optional<VendaEntity> optional = vendaRepository.findById(id);
+		VendaEntity venda = optional.orElse(new VendaEntity());
+		return venda.toDTO();
+	}
+	
+	public VendaDTO save(VendaEntity venda) {
+		return vendaRepository.save(venda).toDTO();
 	
 	}
 	
-	public VendaEntity update(int id, VendaEntity novaVenda) {
-		
+	public VendaDTO update(int id, VendaEntity venda) {
+
 		Optional<VendaEntity> optional = vendaRepository.findById(id);
-		
+
 		if (optional.isPresent()) {
-			VendaEntity venda = optional.get();
+
+			VendaEntity vendaBD = optional.get();
+			vendaBD.setValorTotal(venda.getValorTotal());
 			
-			venda.setValorTotal( novaVenda.getValorTotal());
-			
-			return vendaRepository.save(venda);
-		}else {
-			return new VendaEntity();
+			return vendaRepository.save(vendaBD).toDTO();
+		}
+
+		else {
+			return new VendaEntity().toDTO();
 		}
 	}
 	

@@ -32,30 +32,26 @@ public class ProdutoController {
 	
 	@GetMapping("")
 	public ResponseEntity<List<ProdutoDTO>> getAll() {
-		//return produtoService.getAll();
 		return ResponseEntity.status(HttpStatus.OK).body(produtoService.getAll());
 	}
 	
 	@GetMapping("{id}")
 	public ResponseEntity<ProdutoDTO> getOne(@PathVariable Integer id) {
-		//return produtoService.getOne(id);	
 		return ResponseEntity.status(HttpStatus.OK).body(produtoService.getOne(id));
 	}
 	
 	@PostMapping("")
 	public ResponseEntity<ProdutoDTO> save(@RequestBody ProdutoDTO produto) {
-		//return produtoService.save(produto);
 		return ResponseEntity.status(HttpStatus.OK).body(produtoService.save(produto.toEntity()));
 	}
 	
 	@PatchMapping("{id}")
 	public ResponseEntity<ProdutoDTO> update(@PathVariable Integer id, @RequestBody ProdutoDTO produto) {
-		//return produtoService.update(id, produto);
 		return ResponseEntity.status(HttpStatus.OK).body(produtoService.update(id, produto.toEntity()));
 	}
 	
 	@DeleteMapping("{id}")
-	public void delete(@PathVariable Integer id) {
-		produtoService.delete(id);
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		return ResponseEntity.ok().build();
 	}
 }

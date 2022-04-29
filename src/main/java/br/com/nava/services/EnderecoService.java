@@ -17,10 +17,6 @@ public class EnderecoService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
-	public void mostrar() {
-		System.out.println("mostrar");
-	}
-	
 	public List<EnderecoDTO> getAll(){
 		List<EnderecoEntity> lista = enderecoRepository.findAll();
 		List<EnderecoDTO> listaDTO = new ArrayList<>();
@@ -28,7 +24,7 @@ public class EnderecoService {
 		for (EnderecoEntity enderecoEntity : lista) {
 			listaDTO.add(enderecoEntity.toDTO());
 		}
-		//return enderecoRepository.findAll();
+		
 		return listaDTO;
 	}
 	
@@ -43,11 +39,11 @@ public class EnderecoService {
 	}
 	
 	public EnderecoDTO update(int id, EnderecoEntity endereco) {
-		// 1º passo: verificar se o registro existe no banco de dados
+		
 		Optional<EnderecoEntity> optional = enderecoRepository.findById(id);
-		// se existe no banco
-		if(optional.isPresent() == true) {
-			// atualiza o objeto existente
+		
+		if(optional.isPresent()) {
+		
 			EnderecoEntity enderecoBD = optional.get();
 			enderecoBD.setRua(endereco.getRua());
 			enderecoBD.setNumero(endereco.getNumero());
@@ -57,7 +53,7 @@ public class EnderecoService {
 			enderecoBD.setUsuario(endereco.getUsuario());			
 			return enderecoRepository.save(enderecoBD).toDTO();
 		}
-		// caso contrário, retorna um objeto vazio
+		
 		else {
 			return new EnderecoEntity().toDTO();
 		}

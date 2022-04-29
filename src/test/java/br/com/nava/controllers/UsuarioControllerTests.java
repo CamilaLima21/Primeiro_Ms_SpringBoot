@@ -1,5 +1,6 @@
 package br.com.nava.controllers;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,12 +21,12 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.nava.dtos.ProfessorDTO;
+import br.com.nava.dtos.UsuarioDTO;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-class ProfessorControllerTests {
+class UsuarioControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -33,7 +34,7 @@ class ProfessorControllerTests {
 	@Test
 	void getAllTest() throws Exception {
 
-		ResultActions response = mockMvc.perform(get("/professores").contentType("application/json"));
+		ResultActions response = mockMvc.perform(get("/usuarios").contentType("application/json"));
 
 		MvcResult result = response.andReturn();
 
@@ -42,7 +43,7 @@ class ProfessorControllerTests {
 
 		ObjectMapper mapper = new ObjectMapper();
 
-		ProfessorDTO[] lista = mapper.readValue(responseStr, ProfessorDTO[].class);
+		UsuarioDTO[] lista = mapper.readValue(responseStr, UsuarioDTO[].class);
 
 		assertThat(lista).isNotEmpty();
 	}
@@ -50,53 +51,45 @@ class ProfessorControllerTests {
 	@Test
 	void getOneTest() throws Exception {
 
-		ResultActions response = mockMvc.perform(get("/professores/1").contentType("application/json"));
+		ResultActions response = mockMvc.perform(get("/usuarios/1").contentType("application/json"));
 
 		MvcResult result = response.andReturn();
-
+	
 		String responseStr = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		System.out.println(responseStr);
-
 		ObjectMapper mapper = new ObjectMapper();
 
-		ProfessorDTO professor = mapper.readValue(responseStr, ProfessorDTO.class);
-
-		assertThat(professor.getId()).isEqualTo(1);
+		UsuarioDTO usuario = mapper.readValue(responseStr, UsuarioDTO.class);
+	
+		assertThat(usuario.getId()).isEqualTo(1);
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 	}
 
 	@Test
 	void saveTest() throws Exception {
-
 		ObjectMapper mapper = new ObjectMapper();
 
 
-		ProfessorDTO professor = new ProfessorDTO();
-		professor.setCep("05467845");
-		professor.setNome("Professor Teste");
-		professor.setNumero(3);
-		professor.setRua("Rua de Teste");
+		UsuarioDTO usuario = new UsuarioDTO();
+		usuario.setNome("José Lima");
+		usuario.setEmail("jose.lima@gmail.com");
 
-
-		ResultActions response = mockMvc.perform(
-				post("/professores").content(mapper.writeValueAsString(professor)).contentType("application/json"));
+		ResultActions response = mockMvc
+				.perform(post("/usuarios").content(mapper.writeValueAsString(usuario)).contentType("application/json"));
 	
 		MvcResult result = response.andReturn();
 
 		String responseStr = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
 		System.out.println(responseStr);
 
-	
-		ProfessorDTO professorSalvo = mapper.readValue(responseStr, ProfessorDTO.class);
 
-		assertThat(professorSalvo.getId()).isPositive();
-		assertThat(professorSalvo.getCep()).isEqualTo(professor.getCep());
-		assertThat(professorSalvo.getNome()).isEqualTo(professor.getNome());
-		assertThat(professorSalvo.getNumero()).isEqualTo(professor.getNumero());
-		assertThat(professorSalvo.getRua()).isEqualTo(professor.getRua());
+		UsuarioDTO usuarioSalvo = mapper.readValue(responseStr, UsuarioDTO.class);
+
+		assertThat(usuarioSalvo.getId()).isPositive();
+		assertThat(usuarioSalvo.getNome()).isEqualTo(usuarioSalvo.getNome());
+		assertThat(usuarioSalvo.getEmail()).isEqualTo(usuarioSalvo.getEmail());
 
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
-
 	}
 
 	@Test
@@ -105,15 +98,13 @@ class ProfessorControllerTests {
 		ObjectMapper mapper = new ObjectMapper();
 
 
-		ProfessorDTO professor2 = new ProfessorDTO();
-		professor2.setCep("05467845");
-		professor2.setNome("Professor Teste2");
-		professor2.setNumero(35);
-		professor2.setRua("Rua de Teste2");
+		UsuarioDTO usuario2 = new UsuarioDTO();
+		usuario2.setNome("Roberto Silva");
+		usuario2.setEmail("roberto.silva@gmail.com");
 
 
 		ResultActions response = mockMvc.perform(
-				patch("/professores/1").content(mapper.writeValueAsString(professor2)).contentType("application/json"));
+				patch("/usuarios/1").content(mapper.writeValueAsString(usuario2)).contentType("application/json"));
 
 		MvcResult result = response.andReturn();
 
@@ -121,27 +112,23 @@ class ProfessorControllerTests {
 		System.out.println(responseStr);
 
 
-		ProfessorDTO professorSalvo = mapper.readValue(responseStr, ProfessorDTO.class);
-
-		assertThat(professorSalvo.getId()).isPositive();
-		assertThat(professorSalvo.getCep()).isEqualTo(professor2.getCep());
-		assertThat(professorSalvo.getNome()).isEqualTo(professor2.getNome());
-		assertThat(professorSalvo.getNumero()).isEqualTo(professor2.getNumero());
-		assertThat(professorSalvo.getRua()).isEqualTo(professor2.getRua());
+		UsuarioDTO usuarioSalvo = mapper.readValue(responseStr, UsuarioDTO.class);
+		assertThat(usuarioSalvo.getId()).isPositive();
+		assertThat(usuarioSalvo.getNome()).isEqualTo(usuario2.getNome());
+		assertThat(usuarioSalvo.getEmail()).isEqualTo(usuario2.getEmail());
 
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 	}
-
+	
 	@Test
 	void deleteTest() throws Exception {
 
 
 		ResultActions response = mockMvc.perform(
-				delete("/professores/10")
+				delete("/usuarios/2")
 				.contentType("application/json"));
 
 		MvcResult result = response.andReturn();		
 		assertThat(result.getResponse().getStatus()).isEqualTo(200);
 	}
-
 }
